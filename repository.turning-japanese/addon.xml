@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-    <addon id="repository.turning-japanese" name="Turning-Japanese Repository" version="1.0.0" provider-name="Ponchofcult">
+    <addon id="repository.turning-japanese" name="Turning-Japanese Repository" version="1.0.1" provider-name="Ponchofcult">
         <requires>
             <import addon="xbmc.addon" version="12.0.0"/>
         </requires>
@@ -13,11 +13,6 @@
             <checksum>https://raw.githubusercontent.com/Gujal00/smrzips/master/addons.xml.md5</checksum>
             <datadir zip="true">https://raw.githubusercontent.com/Gujal00/smrzips/master/zips/</datadir>
         </dir>
-		<dir>
-		<info compressed="false">http://127.0.0.1:65220/repository/elgatito/plugin.video.elementum/addons.xml</info>
-		<checksum>http://127.0.0.1:65220/repository/elgatito/plugin.video.elementum/addons.xml.md5</checksum>
-		<datadir zip="true">http://127.0.0.1:65220/repository/elgatito/</datadir>
-		</dir>
         </extension>
         <extension point="xbmc.addon.metadata">
             <summary>JPop and JRock Addon Repository</summary>
