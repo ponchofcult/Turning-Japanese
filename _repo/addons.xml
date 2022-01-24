@@ -1,21 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <addons>
-<addon id="plugin.video.aidoru-online" name="Aidoru!Online" version="0.0.5" provider-name="Ponchofcult">
+<addon id="plugin.video.aidoru-online" name="Aidoru!Online" version="0.0.7" provider-name="Ponchofcult">
     <requires>
-        <import addon="xbmc.python" version="2.25.0"/>
+        <import addon="xbmc.python" version="3.0.0"/>
         <import addon="script.module.routing" version="0.2.0"/>
         <import addon="script.module.codequick" version="1.0"/>
         <import addon="script.module.future" version="0.17.1"/>
-        <import addon="script.module.beautifulsoup" version="3.2.1"/>
 		<import addon="script.module.beautifulsoup4" version="4.9.3"/>
         <import addon="script.module.requests" version="2.22.0"/>
-        <import addon="plugin.video.torrentin" version="0.6.7"/>
     </requires>
     <extension point="xbmc.python.pluginsource" library="main.py">
         <provides>audio image video</provides>
     </extension>
     <extension point="xbmc.addon.metadata">
-        <summary lang="en_GB">It facilitates access to the content of the aidoru-online.me page, we are not responsible for the content hosted on this website, nor do we have any relationship with it, the content is uploaded by the users of this website.</summary>
+        <summary lang="en_GB">It brings access to the content of the aidoru-online.me website, we are not responsible for the content hosted on this website, nor do we have any relationship with it, the content is uploaded by the users of this website.</summary>
         <description lang="en_GB"></description>
         <language></language>
         <platform>all</platform>
@@ -33,9 +31,9 @@
     </extension>
 </addon>
 
-<addon id="plugin.video.ariyasumomoka" name="Ariyasu Momoka" version="0.0.2" provider-name="ponchofcult">
+<addon id="plugin.video.ariyasumomoka" name="Ariyasu Momoka" version="0.0.3" provider-name="ponchofcult">
     <requires>
-        <import addon="xbmc.python" version="2.25.0"/>
+        <import addon="xbmc.python" version="3.0.0"/>
         <import addon="script.module.routing" version="0.2.0"/>
 		<import addon="script.module.codequick" version="1.0"/>
 		<import addon="script.module.future" version="0.17.1"/>
@@ -65,9 +63,9 @@
     </extension>
 </addon>
 
-<addon id="plugin.video.hustlepress" name="Hustle Press!" version="0.0.2" provider-name="ponchofcult">
+<addon id="plugin.video.hustlepress" name="Hustle Press!" version="0.0.3" provider-name="ponchofcult">
     <requires>
-        <import addon="xbmc.python" version="2.25.0"/>
+        <import addon="xbmc.python" version="3.0.0"/>
         <import addon="script.module.routing" version="0.2.0"/>
         <import addon="script.module.codequick" version="1.0"/>
 		<import addon="script.module.future" version="0.17.1"/>
@@ -128,36 +126,43 @@
 
 <addon id="repository.elementum" name="Elementum Repository" version="0.1.83" provider-name="elgatito"><requires></requires><extension point="xbmc.addon.repository" name="Elementum Repository"><info compressed="false">http://127.0.0.1:65220/repository/elgatito/plugin.video.elementum/addons.xml</info><checksum>http://127.0.0.1:65220/repository/elgatito/plugin.video.elementum/addons.xml.md5</checksum><datadir zip="true">http://127.0.0.1:65220/repository/elgatito/</datadir></extension><extension point="xbmc.addon.metadata"><platform>all</platform><summary lang="en">GitHub repository for Elementum updates</summary></extension></addon>
 
-    <addon id="repository.turning-japanese" name="Turning-Japanese Repository" version="1.0.2" provider-name="Ponchofcult">
+<addon id="repository.github" name="GitHub Add-on repository" provider-name="i96751414" version="0.0.6">
+    <requires>
+        <!--<import addon="xbmc.python" version="3.0.0"/>-->
+    </requires>
+    <extension point="xbmc.addon.repository">
+        <info>http://127.0.0.1:61234/addons.xml</info>
+        <checksum>http://127.0.0.1:61234/addons.xml.md5</checksum>
+        <datadir>http://127.0.0.1:61234/</datadir>
+    </extension>
+    <extension point="xbmc.python.script" library="default.py"/>
+    <extension point="xbmc.service" library="service.py"/>
+    <extension point="xbmc.addon.metadata">
+        <platform>all</platform>
+        <license>See https://github.com/i96751414/repository.github/blob/master/LICENSE</license>
+        <source>https://github.com/i96751414/repository.github</source>
+        <summary lang="en">GitHub virtual Add-on repository for TORREST and others</summary>
+        <description lang="en">Customizable repository which acts as a proxy for defined GitHub users' add-ons updates, like TORREST.</description>
+        <summary lang="es">Repositorio GitHub virtual para el Add-on TORREST y otros</summary>
+        <description lang="es">Repositorio configurable que actúa como un proxy para add-ons disponibles en GitHub, como TORREST.</description>
+        <news>
+            - Add support to Kodi 19
+        </news>
+        <assets>
+            <icon>icon.png</icon>
+        </assets>
+    </extension>
+</addon>
+
+    <addon id="repository.turning-japanese" name="Turning-Japanese Repository" version="1.0.3" provider-name="Ponchofcult">
         <requires>
+            <import addon="xbmc.python" version="3.0.0"/>
             <import addon="xbmc.addon" version="12.0.0"/>
         </requires>
         <extension point="xbmc.addon.repository" name="Turning-Japanese Repository">
             <info compressed="false">https://raw.githubusercontent.com/ponchofcult/Turning-Japanese/master/_repo/addons.xml</info>
             <checksum>https://raw.githubusercontent.com/ponchofcult/Turning-Japanese/master/_repo/addons.xml.md5</checksum>
             <datadir zip="true">https://raw.githubusercontent.com/ponchofcult/Turning-Japanese/master/_repo/</datadir>
-            <hashes>false</hashes>
-		<dir>
-            <info compressed="false">https://raw.githubusercontent.com/Gujal00/smrzips/master/addons.xml</info>
-            <checksum>https://raw.githubusercontent.com/Gujal00/smrzips/master/addons.xml.md5</checksum>
-            <datadir zip="true">https://raw.githubusercontent.com/Gujal00/smrzips/master/zips/</datadir>
-        </dir>
-        </extension>
-        <extension point="xbmc.addon.metadata">
-            <summary>JPop and JRock Addon Repository</summary>
-            <description>Official Ponchofcult Repository with Japanse Pop and Japanese Rock Content Addons</description>
-            <platform>all</platform>
-    </extension>
-</addon>
-
-    <addon id="repository.turning-japanese" name="Turning-Japanese Repository" version="1.0.2" provider-name="Ponchofcult">
-        <requires>
-            <import addon="xbmc.addon" version="12.0.0"/>
-        </requires>
-        <extension point="xbmc.addon.repository" name="Turning-Japanese Repository">
-            <info compressed="false">https://raw.githubusercontent.com/ponchofcult/Turning-Japanese/Leia/_repo/addons.xml</info>
-            <checksum>https://raw.githubusercontent.com/ponchofcult/Turning-Japanese/Leia/_repo/addons.xml.md5</checksum>
-            <datadir zip="true">https://raw.githubusercontent.com/ponchofcult/Turning-Japanese/Leia/_repo/</datadir>
             <hashes>false</hashes>
 		<dir>
             <info compressed="false">https://raw.githubusercontent.com/Gujal00/smrzips/master/addons.xml</info>

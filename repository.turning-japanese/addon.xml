@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-    <addon id="repository.turning-japanese" name="Turning-Japanese Repository" version="1.0.2" provider-name="Ponchofcult">
+    <addon id="repository.turning-japanese" name="Turning-Japanese Repository" version="1.0.3" provider-name="Ponchofcult">
         <requires>
-            <import addon="xbmc.addon" version="12.0.0"/>
+            <import addon="xbmc.python" version="3.0.0"/>
+            <import addon="xbmc.addon" version="12.0.0"/>   
         </requires>
         <extension point="xbmc.addon.repository" name="Turning-Japanese Repository">
             <info compressed="false">https://raw.githubusercontent.com/ponchofcult/Turning-Japanese/master/_repo/addons.xml</info>
