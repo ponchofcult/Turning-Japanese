@@ -63,7 +63,7 @@
     </extension>
 </addon>
 
-<addon id="plugin.video.hustlepress" name="Hustle Press!" version="0.0.3" provider-name="ponchofcult">
+<addon id="plugin.video.hustlepress" name="Hustle Press!" version="0.0.4" provider-name="ponchofcult">
     <requires>
         <import addon="xbmc.python" version="3.0.0"/>
         <import addon="script.module.routing" version="0.2.0"/>
@@ -77,7 +77,7 @@
         <provides>image video</provides>
     </extension>
     <extension point="xbmc.addon.metadata">
-        <summary lang="en_GB">Grant acces to all images and videos from the Hustle Press official website</summary>
+        <summary lang="en_GB">Grant acces to all images and videos from the Hustle Press official website.</summary>
         <description lang="en_GB"></description>
         <language></language>
         <platform>all</platform>
