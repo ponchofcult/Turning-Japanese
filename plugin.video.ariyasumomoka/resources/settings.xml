@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<settings>
+    <category label="Settings">
+        <setting id="debug" type="bool" label="Habilitar debug" default="false"/>
+    </category>
+    <category label="32010">
+        <setting label="32032" type="action" action="RunScript(my.addon.id, downloadreport)"/>
+    </category>
+</settings>
