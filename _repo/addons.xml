@@ -166,7 +166,7 @@
     </extension>
 </addon>
 
-    <addon id="repository.turning-japanese" name="Turning-Japanese Repository" version="1.0.4" provider-name="Ponchofcult">
+    <addon id="repository.turning-japanese" name="Turning-Japanese Repository" version="1.0.5" provider-name="Ponchofcult">
         <requires>
             <import addon="xbmc.python" version="3.0.0"/>
             <import addon="xbmc.addon" version="12.0.0"/>
