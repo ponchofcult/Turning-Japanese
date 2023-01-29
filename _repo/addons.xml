@@ -62,6 +62,38 @@
     </extension>
 </addon>
 
+<addon id="plugin.video.hustlepress" name="Hustle Press!" version="0.0.5" provider-name="Ponchofcult">
+    <requires>
+        <import addon="xbmc.python" version="3.0.0"/>
+        <import addon="script.module.routing" version="0.2.0"/>
+        <import addon="script.module.codequick" version="1.0"/>
+		<import addon="script.module.future" version="0.17.1"/>
+		<import addon="script.module.resolveurl" version="5.1.00"/>
+        <import addon="plugin.video.youtube" version="6.8.18"/>
+
+    </requires>
+    <extension point="xbmc.python.pluginsource" library="main.py">
+        <provides>image video</provides>
+    </extension>
+    <extension point="xbmc.addon.metadata">
+        <summary lang="en_GB">Grant acces to all images and videos from the Hustle Press official website.</summary>
+        <description lang="en_GB"></description>
+        <language></language>
+        <platform>all</platform>
+        <license>MIT</license>
+        <forum></forum>
+        <website>https://github.com/ponchofcult</website>
+        <email>ponchofcult@outlook.com</email>
+        <source></source>
+        <news></news>
+        <disclaimer></disclaimer>
+        <assets>
+            <icon>resources/icon.png</icon>
+            <fanart>resources/fanart.jpg</fanart>
+        </assets>
+    </extension>
+</addon>
+
 <addon id="repository.thewarehouse"
        name="The WareHouse Repository"
        version="22.6.8"
@@ -99,7 +131,7 @@
     </extension>
 </addon>
 
-    <addon id="repository.turning-japanese" name="Turning-Japanese Repository" version="1.0.7" provider-name="Ponchofcult">
+    <addon id="repository.turning-japanese" name="Turning-Japanese Repository" version="1.0.8" provider-name="Ponchofcult">
         <requires>
             <import addon="xbmc.python" version="3.0.0"/>
             <import addon="xbmc.addon" version="12.0.0"/>
@@ -116,7 +148,7 @@
         </dir>
         </extension>
         <extension point="xbmc.addon.metadata">
-            <summary>JPop and JRock Addon Repository</summary>
+            <summary>JPOP and JROCK Addon Repository</summary>
             <description>Official Ponchofcult Repository with Japanse Pop and Japanese Rock Content Addons</description>
             <platform>all</platform>
             <assets>
