@@ -17,7 +17,54 @@ import urllib
 import xbmcvfs
 import os
 from time import sleep as wait
+import shutil
 
+skin = xbmc.getSkinDir()
+xmls_route = [
+    {"xmls": "xml"},
+    {"xmls": "16x9"},
+    {"xmls": "720p"},
+    {"xmls": "1080i"},
+]
+# Conocer que Skin estamos usando y obtener las rutas
+for xmls_folder in xmls_route:
+    xmls = xbmcvfs.translatePath('special://home/addons/{}/{}/'.format(skin,xmls_folder["xmls"]))
+    skin_original = xbmcvfs.translatePath('special://xbmc/addons/{}'.format(skin))
+    skin_new = xbmcvfs.translatePath('special://home/addons/{}'.format(skin))
+    act_font = xmls + 'Font.xml'
+    xml_font = xbmcvfs.translatePath('special://home/addons/plugin.video.ariyasumomoka/resources/lib/Font.xml')
+    
+    if xbmcvfs.exists(xmls):   
+
+        # Leer el archivo Font.xml
+        with open(act_font, "r") as f:
+            data = f.readlines()
+            line_org = data[2]
+            line_need = '<fontset id="Default" idloc="31053">'
+                
+            # Verificar si la linea 3 es la correcta
+            if line_org.strip() != line_need.strip():
+                # Si la linea no es correcta, eliminar y reemplazar el archivo Font.xml
+                xbmcvfs.delete(act_font)
+                shutil.copy(xml_font, act_font.replace('Font.xml',''))
+                xbmcgui.Dialog().ok("30002", "30003")
+            else:
+                # Si la linea es correcta, no hacer nada
+                pass
+
+    elif not xbmcvfs.exists(xmls):
+        # Si no existe la carpeta, verificar si estamos usando Estuary o Estouchy
+        if skin == "skin.estuary" or skin == "skin.estouchy":
+            try:
+                # Copiar la carpeta original y reemplazar el archivo Font.xml
+                shutil.copytree(skin_original, skin_new)
+                xbmcvfs.delete(xbmcvfs.translatePath('{}{}'.format(skin_new,'/xml/Font.xml')))
+                shutil.copy(xml_font, '{}/xml/'.format(skin_new))
+                xbmcgui.Dialog().ok("30002", "30003")
+            except OSError as error:
+                logger.debug(error)
+    else:
+        xbmcgui.Dialog().ok("30004" , "30005")
 
 
 headers = {
@@ -25,7 +72,7 @@ headers = {
 }
 URL = "https://www.ariyasumomoka.jp"
 url_constructor = urljoin_partial(URL)
-
+s = urlquick.Session()
 
 @Route.register
 def root(plugin, content_type="segment"):
@@ -45,7 +92,7 @@ def root(plugin, content_type="segment"):
    
 @Route.register
 def get_videos(plugin, url):
-    resp = urlquick.get(url, headers=headers, max_age=-1)
+    resp = s.get(url, headers=headers, max_age=-1)
     videosRoot = resp.parse("ul", attrs={"class": "movie-index"})
     videoslist = videosRoot.iterfind("li/a")
 
@@ -63,13 +110,13 @@ def get_videos(plugin, url):
         
 @Route.register
 def get_photos(plugin, url):
-    resp = urlquick.get(url, headers=headers, max_age=-1)
+    resp = s.get(url, headers=headers, max_age=-1)
     photosRoot = resp.parse("ul", attrs={"class": "bio__content-list"})
     photoslist = photosRoot.iterfind("li/img")
     
     for photo in photoslist:
         url = url_constructor(photo.get("src"))
-        url = urlquick.get(url)
+        url = s.get(url)
         route = "special://home/temp"
         profile = xbmcvfs.translatePath(route)
         directory = "ariyasumomoka"
@@ -93,7 +140,7 @@ def get_photos(plugin, url):
         item.label = img.replace('.jpg','')
         album = xbmcvfs.translatePath("{}/{}/{}".format(profile,directory, gallery))
         pic = xbmcvfs.translatePath("{}/{}/{}/{}".format(profile,directory, gallery, img))
-        logger.debug(url)
+        
         item.art["thumb"] = image_file
         item.art["fanart"] = image_file
         item.set_callback(show_Photos, album=album, pic=pic, url=url.url)
@@ -101,17 +148,27 @@ def get_photos(plugin, url):
 
 
 @Resolver.register
-def play_Video(plugin,url):
-    headers = {"User-Agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.90 Safari/537.36"}
-    resp = urlquick.get(url, headers=headers, max_age=-1)
-    pageRoot = resp.parse("div",attrs={"class":"wrap"})
-    pageElems = pageRoot.iterfind("div")
-    
-    for elem in pageElems:
-        url = elem.find("div/div/iframe").get("src")
-        resolved = resolveurl.resolve(url)
-        return resolved
+def play_Video(plugin, url):
+    _url = url
+    headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.90 Safari/537.36"}
+    resp = s.get(url, headers=headers)
+    page_root = resp.parse("div", attrs={"class":"wrap"})
+    page_elems = page_root.iterfind("div")
 
+    for elem in page_elems:
+        url = elem.find("div/div/iframe").get("src")
+
+        try:
+            resolved = resolveurl.resolve(url)
+            return resolved
+        except urllib.error.HTTPError as error:
+            if error.code == 403:
+                _url = _url.lower()
+                xbmcgui.Dialog().ok("30009", "30010{}".format(_url))
+                xbmc.executebuiltin('Dialog.Close(all,true)')
+            else:
+                pass
+        
 
 @Resolver.register
 def show_Photos(plugin,album,pic,url):
@@ -129,7 +186,7 @@ def show_Photos(plugin,album,pic,url):
 
 @Route.register
 def get_albums(plugin,url):
-    resp = urlquick.get(url, headers=headers, max_age=-1)
+    resp = s.get(url, headers=headers, max_age=-1)
     albumsRoot = resp.parse("div", attrs={"class": "wrap"})
     albumslist = albumsRoot.iterfind("ul")
     
@@ -154,25 +211,30 @@ def get_albums(plugin,url):
 
 @Route.register
 def albums_List(plugin, url):
-    resp = urlquick.get(url, headers=headers, max_age=-1)
-    albumsRoot = resp.parse("div", attrs={"class": "disco-index__list"})
-    albumslist = albumsRoot.iterfind("ul/li/a")
-    
-    for album in albumslist:
-        item = Listitem()
-        item.label = album.find("div[2]").text
-        linkpart = album.get("href").replace('.','/discography/')
-        url = url_constructor(linkpart)
-        img = album.find("figure/img").get("src")
-        item.art["thumb"] = url_constructor(img)
-        item.art["fanart"] = url_constructor(img)
-        item.set_callback(album_Page, url=url)
-        yield item
+    resp = s.get(url, headers=headers, max_age=-1)
+    try:
+        albumsRoot = resp.parse("div", attrs={"class": "disco-index__list"})
+        albumslist = albumsRoot.iterfind("ul/li/a")
+        
+        for album in albumslist:
+            item = Listitem()
+            item.label = album.find("div[2]").text
+            linkpart = album.get("href").replace('.','/discography/')
+            url = url_constructor(linkpart)
+            img = album.find("figure/img").get("src")
+            item.art["thumb"] = url_constructor(img)
+            item.art["fanart"] = url_constructor(img)
+            item.set_callback(album_Page, url=url)
+            yield item
+    except RuntimeError as error:
+        xbmcgui.Dialog().ok("30011", "30012")
+        xbmc.executebuiltin('Dialog.Close(all,true)')
+        
         
         
 @Route.register
 def album_Page(plugin, url):
-    resp = urlquick.get(url, headers=headers, max_age=-1)
+    resp = s.get(url, headers=headers, max_age=-1)
     albumRoot = resp.parse("div", attrs={"class": "wrap"})
     albumElems = albumRoot.iterfind("div/div")
     
@@ -193,14 +255,14 @@ def album_Page(plugin, url):
         
 @Route.register
 def enter_AlbumVideo(plugin, url):
-    resp = urlquick.get(url, headers=headers, max_age=-1)
+    resp = s.get(url, headers=headers, max_age=-1)
     videosRoot = resp.parse("section", attrs={"class": "section section--v1"})
     videosElems = videosRoot.iterfind("div/div/div/div/div/iframe")
     
     counter = 1
     for elem in videosElems:
         item = Listitem()
-        item.label = "PLAY VIDEO " + str(counter)
+        item.label = "30013" + str(counter)
         url = elem.get("src")
         item.set_callback(play_AlbumVideo, url=url)
         counter += 1
@@ -209,14 +271,14 @@ def enter_AlbumVideo(plugin, url):
             
 @Route.register
 def enter_AlbumPopSZT2019(plugin, url):
-    resp = urlquick.get(url, headers=headers, max_age=-1)
+    resp = s.get(url, headers=headers, max_age=-1)
     videosRoot = resp.parse("div", attrs={"class": "movie"})
     videosElems = videosRoot.iterfind("div/div/div/iframe")
     
     counter = 1
     for elem in videosElems:
         item = Listitem()
-        item.label = "PLAY VIDEO " + str(counter)
+        item.label = "30013" + str(counter)
         url = elem.get("src")
         item.set_callback(play_AlbumVideo, url=url)
         counter += 1
