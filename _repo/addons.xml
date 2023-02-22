@@ -29,7 +29,7 @@
     </extension>
 </addon>
 
-<addon id="plugin.video.ariyasumomoka" name="Ariyasu Momoka" version="0.0.7" provider-name="Ponchofcult">
+<addon id="plugin.video.ariyasumomoka" name="Ariyasu Momoka" version="0.0.8" provider-name="Ponchofcult">
     <requires>
         <import addon="xbmc.python" version="3.0.0"/>
         <import addon="script.module.routing" version="0.2.0"/>
@@ -37,15 +37,13 @@
 		<import addon="script.module.future" version="0.17.1"/>
 		<import addon="script.module.resolveurl" version="5.1.00"/>
         <import addon="plugin.video.youtube" version="6.8.18"/>
-		<import addon="script.module.beautifulsoup4" version="4.9.3"/>
-		<import addon="script.module.defusedxml" version="0.6.0"/>
     </requires>
     <extension point="xbmc.python.pluginsource" library="main.py">
         <provides>image video</provides>
     </extension>
     <extension point="xbmc.addon.metadata">
-        <summary lang="en_GB">Shows the content of Ariyasu Momoka Website =)</summary>
-        <description lang="en_GB"></description>
+        <summary lang="en_GB">Shows the content of Ariyasu Momoka Official Website =)</summary>
+        <description lang="en_GB">Shows the content of Ariyasu Momoka Official Website =)</description>
         <language></language>
         <platform>all</platform>
         <license>MIT</license>

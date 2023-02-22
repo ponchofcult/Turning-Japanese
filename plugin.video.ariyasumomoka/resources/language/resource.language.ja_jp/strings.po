@@ -71,3 +71,11 @@ msgstr "近日公開..."
 msgctxt "#30013"
 msgid "PLAY VIDEO "
 msgstr "ビデオを再生 "
+
+msgctxt "#30014"
+msgid "No links found"
+msgstr "リンクが見つかりませんでした"
+
+msgctxt "#30015"
+msgid "Videos not available for this album, sorry."
+msgstr "このアルバムのビデオは利用できません、ごめんなさい"

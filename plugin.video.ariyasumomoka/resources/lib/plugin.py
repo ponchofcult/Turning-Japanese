@@ -7,68 +7,18 @@ from codequick import Route, Resolver, Listitem, utils, run
 from codequick.utils import urljoin_partial, bold
 import urlquick
 import xbmcgui
-import xbmcaddon
 from . import logger #logger.debug(FUNCION O VARIABLE A DEBUGUEAR)
 from . import tools
-import re
 import resolveurl
 import xbmc
-import urllib
 import xbmcvfs
 import os
-from time import sleep as wait
-import shutil
 
-skin = xbmc.getSkinDir()
-xmls_route = [
-    {"xmls": "xml"},
-    {"xmls": "16x9"},
-    {"xmls": "720p"},
-    {"xmls": "1080i"},
-]
-# Conocer que Skin estamos usando y obtener las rutas
-for xmls_folder in xmls_route:
-    xmls = xbmcvfs.translatePath('special://home/addons/{}/{}/'.format(skin,xmls_folder["xmls"]))
-    skin_original = xbmcvfs.translatePath('special://xbmc/addons/{}'.format(skin))
-    skin_new = xbmcvfs.translatePath('special://home/addons/{}'.format(skin))
-    act_font = xmls + 'Font.xml'
-    xml_font = xbmcvfs.translatePath('special://home/addons/plugin.video.ariyasumomoka/resources/lib/Font.xml')
-    
-    if xbmcvfs.exists(xmls):   
 
-        # Leer el archivo Font.xml
-        with open(act_font, "r") as f:
-            data = f.readlines()
-            line_org = data[2]
-            line_need = '<fontset id="Default" idloc="31053">'
-                
-            # Verificar si la linea 3 es la correcta
-            if line_org.strip() != line_need.strip():
-                # Si la linea no es correcta, eliminar y reemplazar el archivo Font.xml
-                xbmcvfs.delete(act_font)
-                shutil.copy(xml_font, act_font.replace('Font.xml',''))
-                xbmcgui.Dialog().ok("30002", "30003")
-            else:
-                # Si la linea es correcta, no hacer nada
-                pass
-
-    elif not xbmcvfs.exists(xmls):
-        # Si no existe la carpeta, verificar si estamos usando Estuary o Estouchy
-        if skin == "skin.estuary" or skin == "skin.estouchy":
-            try:
-                # Copiar la carpeta original y reemplazar el archivo Font.xml
-                shutil.copytree(skin_original, skin_new)
-                xbmcvfs.delete(xbmcvfs.translatePath('{}{}'.format(skin_new,'/xml/Font.xml')))
-                shutil.copy(xml_font, '{}/xml/'.format(skin_new))
-                xbmcgui.Dialog().ok("30002", "30003")
-            except OSError as error:
-                logger.debug(error)
-    else:
-        xbmcgui.Dialog().ok("30004" , "30005")
-
+tools.setFont()
 
 headers = {
-    "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.90 Safari/537.36"
+    "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36"
 }
 URL = "https://www.ariyasumomoka.jp"
 url_constructor = urljoin_partial(URL)
@@ -77,9 +27,9 @@ s = urlquick.Session()
 @Route.register
 def root(plugin, content_type="segment"):
     menu_items = [
-        {"label": "PHOTOGRAPHY", "callback": get_photos, "linkpart": "/photography/"},
-        {"label": "MOVIE", "callback": get_videos, "linkpart": "/movie/"},
-        {"label": "DISCOGRAPHY", "callback": get_albums, "linkpart": "/discography/"},
+        {"label": tools.getString(30006), "callback": get_photos, "linkpart": "/photography/"},
+        {"label": tools.getString(30007), "callback": get_videos, "linkpart": "/movie/"},
+        {"label": tools.getString(30008), "callback": get_albums, "linkpart": "/discography/"},
     ]
     
     for item_data in menu_items:
@@ -104,10 +54,38 @@ def get_videos(plugin, url):
         img = elem.find("figure/img").get("src")
         item.art["thumb"] = url_constructor(img)
         item.art["fanart"] = url_constructor(img)
-        item.set_callback(play_Video, url=url)
+        item.set_callback(data_Video, url=url, img=img)
         yield item
-        
-        
+
+    NextPageTree = resp.parse("div",attrs={"class":"parts-pager-index"})
+    for page in NextPageTree.iterfind("a[5]"):
+        next_url = url_constructor("/movie/{}".format(page.get("href")))
+        yield Listitem.next_page(nextPage=next_url,callback=get_Nextvideos)
+
+
+@Route.register
+def get_Nextvideos(plugin, nextPage):
+    resp = s.get(nextPage, headers=headers, max_age=-1)
+    videosRoot = resp.parse("ul", attrs={"class": "movie-index"})
+    videoslist = videosRoot.iterfind("li/a")
+
+    for elem in videoslist:
+        item = Listitem()
+        item.label = elem.find("div").text
+        linkpart = elem.get("href")
+        url = url_constructor("/movie/" + linkpart)
+        img = elem.find("figure/img").get("src")
+        item.art["thumb"] = url_constructor(img)
+        item.art["fanart"] = url_constructor(img)
+        item.set_callback(data_Video, url=url, img=img)
+        yield item
+
+    NextPageTree = resp.parse("div",attrs={"class":"parts-pager-index"})
+    for page in NextPageTree.iterfind("a[5]"):
+        next_url = url_constructor("/movie/{}".format(page.get("href")))
+        yield Listitem.next_page(nextPage=next_url,callback=get_Nextvideos)
+
+             
 @Route.register
 def get_photos(plugin, url):
     resp = s.get(url, headers=headers, max_age=-1)
@@ -147,8 +125,9 @@ def get_photos(plugin, url):
         yield item
 
 
-@Resolver.register
-def play_Video(plugin, url):
+@Route.register
+def data_Video(plugin, url, img):
+    img = url_constructor(img)
     _url = url
     headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.90 Safari/537.36"}
     resp = s.get(url, headers=headers)
@@ -156,19 +135,14 @@ def play_Video(plugin, url):
     page_elems = page_root.iterfind("div")
 
     for elem in page_elems:
+        item = Listitem()
+        item.label = elem.find("h3").text
         url = elem.find("div/div/iframe").get("src")
+        item.art["thumb"] = img
+        item.art["fanart"] = img
+        item.set_callback(play_Video, url=url, _url=_url)
+        yield item
 
-        try:
-            resolved = resolveurl.resolve(url)
-            return resolved
-        except urllib.error.HTTPError as error:
-            if error.code == 403:
-                _url = _url.lower()
-                xbmcgui.Dialog().ok("30009", "30010{}".format(_url))
-                xbmc.executebuiltin('Dialog.Close(all,true)')
-            else:
-                pass
-        
 
 @Resolver.register
 def show_Photos(plugin,album,pic,url):
@@ -227,9 +201,8 @@ def albums_List(plugin, url):
             item.set_callback(album_Page, url=url)
             yield item
     except RuntimeError as error:
-        xbmcgui.Dialog().ok("30011", "30012")
+        xbmcgui.Dialog().ok(tools.getString(30011), tools.getString(30012))
         xbmc.executebuiltin('Dialog.Close(all,true)')
-        
         
         
 @Route.register
@@ -241,20 +214,33 @@ def album_Page(plugin, url):
     for elem in albumElems:
         item = Listitem()
         item.label = elem.find("div[2]/h3").text
-        url = elem.find("div[2]/div[3]/a[2]").get("href")
         img = elem.find("div/div/div/img").get("src")
         item.art["thumb"] = url_constructor(img)
         item.art["fanart"] = url_constructor(img)
-        if item.label == "有安杏果 Pop Step Zepp Tour 2019":
+        emptyAlbums = ["『有安杏果 サクライブ 2019 ～Another story～』Live Blu-ray&DVD", "有安杏果写真集『ヒカリの声』", "ライフスタイル本『Happy Holidays』", "有安杏果 サクライブ 2019 ～Another story～"]
+
+        if item.label == "『有安杏果 Pop Step Zepp Tour 2019』Live Blu-ray&DVD":
+            url = elem.find("div[2]/div[3]/a").get("href")
             item.set_callback(enter_AlbumPopSZT2019, url=url)
+            yield item
+        elif item.label == "有安杏果 Pop Step Zepp Tour 2019":
+            url = elem.find("div[2]/div[3]/a[2]").get("href")
+            item.set_callback(enter_AlbumPopSZT2019, url=url)
+            yield item
         else:
-            item.set_callback(enter_AlbumVideo, url=url)
-    
-        yield item
-        
-        
+            try:
+                url = elem.find("div[2]/div[3]/a[2]").get("href")
+                item.set_callback(enter_AlbumVideo, url=url)
+                yield item
+            except AttributeError as error:
+                logger.debug(error)
+                xbmcgui.Dialog().ok(tools.getString(30014), tools.getString(30015))
+                xbmc.executebuiltin('Dialog.Close(all,true)')
+
+
 @Route.register
 def enter_AlbumVideo(plugin, url):
+    _url = url
     resp = s.get(url, headers=headers, max_age=-1)
     videosRoot = resp.parse("section", attrs={"class": "section section--v1"})
     videosElems = videosRoot.iterfind("div/div/div/div/div/iframe")
@@ -262,31 +248,44 @@ def enter_AlbumVideo(plugin, url):
     counter = 1
     for elem in videosElems:
         item = Listitem()
-        item.label = "30013" + str(counter)
+        item.label = tools.getString(30013) + str(counter)
         url = elem.get("src")
-        item.set_callback(play_AlbumVideo, url=url)
+        logger.debug(url)
+        item.set_callback(play_Video, url=url, _url=_url)
         counter += 1
-        yield item        
+        yield item   
         
             
 @Route.register
 def enter_AlbumPopSZT2019(plugin, url):
+    _url = url
     resp = s.get(url, headers=headers, max_age=-1)
     videosRoot = resp.parse("div", attrs={"class": "movie"})
     videosElems = videosRoot.iterfind("div/div/div/iframe")
     
+    
     counter = 1
     for elem in videosElems:
         item = Listitem()
-        item.label = "30013" + str(counter)
+        item.label = tools.getString(30013) + str(counter)
         url = elem.get("src")
-        item.set_callback(play_AlbumVideo, url=url)
+        item.set_callback(play_Video, url=url, _url=_url)
         counter += 1
         yield item
         
 
 @Resolver.register
-def play_AlbumVideo(plugin, url):
-    url = url
-    resolved = resolveurl.resolve(url)
-    return resolved
+def play_Video(plugin, url,_url):
+    if not "https://player.vimeo.com/video/" in url:
+        url = url
+        resolved = resolveurl.resolve(url)
+        return resolved
+    else:
+        url = _url.replace('https://','')
+        xbmcgui.Dialog().ok("{}".format(tools.getString(30009)),"{} {}".format(tools.getString(30010),url))
+        xbmc.executebuiltin('Dialog.Close(all,true)')
+
+
+    
+    
+   

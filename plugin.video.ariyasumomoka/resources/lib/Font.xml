@@ -5,43 +5,43 @@
         <font>
             <name>font10</name>
             <filename>arial.ttf</filename>
-            <style>capitalize</style>
+            <style></style>
             <size>24</size>
         </font>
         <font>
             <name>font12</name>
             <filename>arial.ttf</filename>
-            <style>capitalize</style>
+            <style></style>
             <size>25</size>
         </font>
         <font>
             <name>font13</name>
             <filename>arial.ttf</filename>
-            <style>capitalize</style>
+            <style></style>
             <size>30</size>
         </font>
         <font>
             <name>font14</name>
             <filename>arial.ttf</filename>
-            <style>capitalize</style>
+            <style></style>
             <size>33</size>
         </font>
         <font>
             <name>font16</name>
             <filename>arial.ttf</filename>
-            <style>capitalize</style>
+            <style></style>
             <size>37</size>
         </font>
 		<font>
             <name>font18</name>
             <filename>arial.ttf</filename>
-            <style>capitalize</style>
+            <style></style>
             <size>42</size>
         </font>
         <font>
             <name>font30</name>
             <filename>arial.ttf</filename>
-            <style>capitalize</style>
+            <style></style>
             <size>45</size>
         </font>
         <!-- Generic Title Fonts -->
@@ -120,19 +120,19 @@
         <font>
             <name>FanartTitleFont</name>
             <filename>arial.ttf</filename>
-            <style>capitalize</style>
+            <style></style>
             <size>18</size>
         </font>
         <font>
             <name>ExtProgressBar2</name>
             <filename>arial.ttf</filename>
-            <style>capitalize</style>
+            <style></style>
             <size>19</size>
         </font>
         <font>
             <name>font22</name>
             <filename>arial.ttf</filename>
-            <style>capitalize</style>
+            <style></style>
             <size>22</size>
         </font>
         <font>
@@ -162,25 +162,25 @@
         <font>
             <name>ListDetails</name>
             <filename>arial.ttf</filename>
-            <style>capitalize</style>
+            <style></style>
             <size>28</size>
         </font>
         <font>
             <name>ListDetailsSmall</name>
             <filename>arial.ttf</filename>
-            <style>capitalize</style>
+            <style></style>
             <size>20</size>
         </font>
         <font>
             <name>ListDetailsExtraSmall</name>
             <filename>arial.ttf</filename>
-            <style>capitalize</style>
+            <style></style>
             <size>18</size>
         </font>        
         <font>
             <name>Details</name>
             <filename>arial.ttf</filename>
-            <style>capitalize</style>
+            <style></style>
             <size>30</size>
         </font>
         <font>
@@ -191,14 +191,14 @@
         <font>
             <name>InfoTitle</name>
             <filename>arial.ttf</filename>
-            <style>capitalize</style>
+            <style></style>
             <size>36</size>
             <style>bold</style>
         </font>
         <font>
             <name>MainLabelBig</name>
             <filename>arial.ttf</filename>
-            <style>capitalize</style>
+            <style></style>
             <size>39</size>
             <style>bold</style>
         </font>
@@ -210,7 +210,7 @@
         <font>
             <name>MainLabelBigTitle</name>
             <filename>arial.ttf</filename>
-            <style>capitalize</style>
+            <style></style>
             <size>44</size>
             <style>bold</style>
         </font>
@@ -237,7 +237,7 @@
         <font>
             <name>Mono26</name>
             <filename>UbuntuMono-R.ttf</filename>
-            <style>capitalize</style>
+            <style></style>
             <size>26</size>
         </font>
 		
@@ -250,43 +250,43 @@
 		<font>
             <name>font10</name>
             <filename>NotoSans-Regular.ttf</filename>
-            <style>capitalize</style>
+            <style></style>
             <size>24</size>
         </font>
         <font>
             <name>font12</name>
             <filename>NotoSans-Regular.ttf</filename>
-            <style>capitalize</style>
+            <style></style>
             <size>25</size>
         </font>
         <font>
             <name>font13</name>
             <filename>NotoSans-Regular.ttf</filename>
-            <style>capitalize</style>
+            <style></style>
             <size>30</size>
         </font>
         <font>
             <name>font14</name>
             <filename>NotoSans-Regular.ttf</filename>
-            <style>capitalize</style>
+            <style></style>
             <size>33</size>
         </font>
         <font>
             <name>font16</name>
             <filename>NotoSans-Regular.ttf</filename>
-            <style>capitalize</style>
+            <style></style>
             <size>37</size>
         </font>
 		<font>
             <name>font18</name>
             <filename>NotoSans-Regular.ttf</filename>
-            <style>capitalize</style>
+            <style></style>
             <size>42</size>
         </font>
         <font>
             <name>font30</name>
             <filename>NotoSans-Regular.ttf</filename>
-            <style>capitalize</style>
+            <style></style>
             <size>45</size>
         </font>
         <!-- Generic Title Fonts -->
@@ -365,19 +365,19 @@
         <font>
             <name>FanartTitleFont</name>
             <filename>NotoSans-Regular.ttf</filename>
-            <style>capitalize</style>
+            <style></style>
             <size>18</size>
         </font>
         <font>
             <name>ExtProgressBar2</name>
             <filename>NotoSans-Regular.ttf</filename>
-            <style>capitalize</style>
+            <style></style>
             <size>19</size>
         </font>
         <font>
             <name>font22</name>
             <filename>NotoSans-Regular.ttf</filename>
-            <style>capitalize</style>
+            <style></style>
             <size>22</size>
         </font>
         <font>
@@ -407,25 +407,25 @@
         <font>
             <name>ListDetails</name>
             <filename>NotoSans-Regular.ttf</filename>
-            <style>capitalize</style>
+            <style></style>
             <size>28</size>
         </font>
         <font>
             <name>ListDetailsSmall</name>
             <filename>NotoSans-Regular.ttf</filename>
-            <style>capitalize</style>
+            <style></style>
             <size>20</size>
         </font>
         <font>
             <name>ListDetailsExtraSmall</name>
             <filename>NotoSans-Regular.ttf</filename>
-            <style>capitalize</style>
+            <style></style>
             <size>18</size>
         </font>        
         <font>
             <name>Details</name>
             <filename>NotoSans-Regular.ttf</filename>
-            <style>capitalize</style>
+            <style></style>
             <size>30</size>
         </font>
         <font>
@@ -436,14 +436,14 @@
         <font>
             <name>InfoTitle</name>
             <filename>NotoSans-Regular.ttf</filename>
-            <style>capitalize</style>
+            <style></style>
             <size>36</size>
             <style>bold</style>
         </font>
         <font>
             <name>MainLabelBig</name>
             <filename>NotoSans-Regular.ttf</filename>
-            <style>capitalize</style>
+            <style></style>
             <size>39</size>
             <style>bold</style>
         </font>
@@ -455,7 +455,7 @@
         <font>
             <name>MainLabelBigTitle</name>
             <filename>NotoSans-Regular.ttf</filename>
-            <style>capitalize</style>
+            <style></style>
             <size>44</size>
             <style>bold</style>
         </font>
@@ -482,7 +482,7 @@
         <font>
             <name>Mono26</name>
             <filename>NotoMono-Regular.ttf</filename>
-            <style>capitalize</style>
+            <style></style>
             <size>26</size>
         </font>
 		

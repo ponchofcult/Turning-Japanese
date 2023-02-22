@@ -25,50 +25,58 @@ msgctxt "#30001"
 msgid "Enable/Disable Debug"
 msgstr "Habilitar/Deshabilitar depuración"
 
-msgctxt "30002"
+msgctxt "#30002"
 msgid "Restart Required"
 msgstr "Reinicio requerido"
 
-msgctxt "30003"
+msgctxt "#30003"
 msgid "If you want to see Japanese titles displayed correctly, please restart Kodi now. Alternatively, you can continue using it and the changes will take effect after your next restart."
 msgstr "Si desea ver los títulos japoneses mostrados correctamente, reinicie Kodi ahora. Alternativamente, puede continuar usándolo y los cambios se aplicarán después de su próximo reinicio."
 
-msgctxt "30004"
+msgctxt "#30004"
 msgid "Unsupported Skin"
 msgstr "Skin no soportado"
 
-msgctxt "30005"
+msgctxt "#30005"
 msgid "Please report this on https://github.com/ponchofcult/Turning-Japanese/issues so we can add support as soon as possible. Thank you!"
 msgstr "Por favor informe esto en https://github.com/ponchofcult/Turning-Japanese/issues para que podamos agregar soporte lo antes posible. ¡Gracias!"
 
-msgctxt "30006"
+msgctxt "#30006"
 msgid "PHOTOGRAPHY"
 msgstr "FOTOGRAFÍA"
 
-msgctxt "30007"
+msgctxt "#30007"
 msgid "MOVIE"
 msgstr "PELÍCULA"
 
-msgctxt "30008"
+msgctxt "#30008"
 msgid "DISCOGRAPHY"
 msgstr "DISCOGRAFÍA"
 
-msgctxt "30009"
+msgctxt "#30009"
 msgid "Unsupported Link"
 msgstr "Enlace no soportado"
 
-msgctxt "30010"
+msgctxt "#30010"
 msgid "If you want to watch this video, please enter this URL in a web browser: "
 msgstr "Si desea ver este video, ingrese esta URL en un navegador web:"
 
-msgctxt "30011"
+msgctxt "#30011"
 msgid "Not Available Albums"
 msgstr "Álbumes no disponibles"
 
-msgctxt "30012"
+msgctxt "#30012"
 msgid "Coming soon..."
 msgstr "Próximamente..."
 
-msgctxt "30013"
+msgctxt "#30013"
 msgid "PLAY VIDEO "
 msgstr "REPRODUCIR VIDEO "
+
+msgctxt "#30014"
+msgid "No links found"
+msgstr "No se encontraron enlaces"
+
+msgctxt "#30015"
+msgid "Videos not available for this album, sorry."
+msgstr "Lo siento, no hay videos disponibles para este álbum."
