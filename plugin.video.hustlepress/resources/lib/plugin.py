@@ -6,55 +6,42 @@ from __future__ import unicode_literals
 from codequick import Route, Resolver, Listitem, utils, run
 from codequick.utils import urljoin_partial, bold
 import urlquick
-import xbmcgui
-import re
+import xbmcvfs
+import xbmcaddon
+import os
 import resolveurl
 import xbmc
-import urllib
+from . import tools
+from . import logger
+from time import sleep as wait
+
+
+tools.setFont()
 
 headers = {
     "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.90 Safari/537.36"
 }
 URL = "https://hustlepress.co.jp"
-LOGIN_ROUTE = ""
+url_constructor = urljoin_partial(URL)
 
 #Addon Start    
 @Route.register
 def root(plugin, content_type="segment"):
-    item = Listitem()
-    item.label = "HOME"
-    linkpart = "/"
-    url = URL + linkpart
-    item.set_callback(get_postlist, url=url)  
-    yield item
-        
-    item = Listitem()
-    item.label = "GRAVURE"
-    linkpart = "/category/gravure/"
-    url = URL + linkpart
-    item.set_callback(get_postlist, url=url)  
-    yield item
-        
-    item = Listitem()
-    item.label = "INTERVIEW"
-    linkpart = "/category/interview/"
-    url = URL + linkpart
-    item.set_callback(get_postlist, url=url)  
-    yield item
+    item_data = [
+        {"label":tools.getString(30006), "linkpart":"/"},
+        {"label":tools.getString(30007), "linkpart":"/category/gravure/"},
+        {"label":tools.getString(30008), "linkpart":"/category/interview/"},
+        {"label":tools.getString(30009), "linkpart":"/category/feature/"},
+        {"label":tools.getString(30010), "linkpart":"/category/coumn/"},
+    ]
     
-    item = Listitem()
-    item.label = "FEATURE"
-    linkpart = "/category/feature/"
-    url = URL + linkpart
-    item.set_callback(get_postlist, url=url)  
-    yield item
-    
-    item = Listitem()
-    item.label = "COLUMN"
-    linkpart = "/category/coumn/"
-    url = URL + linkpart
-    item.set_callback(get_postlist, url=url)  
-    yield item
+    for data in item_data:
+        item = Listitem()
+        item.label = data["label"]
+        linkpart = data["linkpart"]
+        url = url_constructor(linkpart)
+        item.set_callback(get_postlist, url=url)  
+        yield item
 
 
 @Route.register
@@ -69,7 +56,7 @@ def get_postlist(plugin, url):
         url = post.get("href")
         item.art["thumb"] = post.find("img").get("src")
         item.art["fanart"] = post.find("img").get("src")
-        item.set_callback(categories, url=url)
+        item.set_callback(media_List, url=url)
         yield item
         
     NextPageTree = resp.parse("div",attrs={"id":"blocks-left"})
@@ -78,7 +65,6 @@ def get_postlist(plugin, url):
         span_number = page.find("span[@aria-current='page']").text
         a = int(a_number)
         span = int(span_number)
-        span_menos_uno = span - 1
         if a == span + 1:
             nextPageP = page.find("a")
             yield Listitem.next_page(nextPage=nextPageP.get("href"),callback=get_Nextpostlist)
@@ -88,12 +74,6 @@ def get_postlist(plugin, url):
         elif a == span - 2:
             nextPageP = page.find("a[3]")
             yield Listitem.next_page(nextPage=nextPageP.get("href"),callback=get_Nextpostlist)    
-        elif a == span - 3:
-            nextPageP = page.find("a[4]")
-            yield Listitem.next_page(nextPage=nextPageP.get("href"),callback=get_Nextpostlist)    
-        elif a == span - span_menos_uno:
-            nextPageP = page.find("a[4]")
-            yield Listitem.next_page(nextPage=nextPageP.get("href"),callback=get_Nextpostlist)
         else:
             nextPageP = page.find("a[4]")
             yield Listitem.next_page(nextPage=nextPageP.get("href"),callback=get_Nextpostlist)     
@@ -111,7 +91,7 @@ def get_Nextpostlist(plugin,nextPage):
         url = post.get("href")
         item.art["thumb"] = post.find("img").get("src")
         item.art["fanart"] = post.find("img").get("src")
-        item.set_callback(categories, url=url)
+        item.set_callback(media_List, url=url)
         yield item
         
     NextPageTree = resp.parse("div",attrs={"id":"blocks-left"})
@@ -120,7 +100,6 @@ def get_Nextpostlist(plugin,nextPage):
         span_number = page.find("span[@aria-current='page']").text
         a = int(a_number)
         span = int(span_number)
-        span_menos_uno = span - 1
         if a == span + 1:
             nextPageP = page.find("a")
             yield Listitem.next_page(nextPage=nextPageP.get("href"),callback=get_Nextpostlist)
@@ -130,75 +109,73 @@ def get_Nextpostlist(plugin,nextPage):
         elif a == span - 2:
             nextPageP = page.find("a[3]")
             yield Listitem.next_page(nextPage=nextPageP.get("href"),callback=get_Nextpostlist)    
-        elif a == span - 3:
-            nextPageP = page.find("a[4]")
-            yield Listitem.next_page(nextPage=nextPageP.get("href"),callback=get_Nextpostlist)    
-        elif a == span - span_menos_uno:
-            nextPageP = page.find("a[4]")
-            yield Listitem.next_page(nextPage=nextPageP.get("href"),callback=get_Nextpostlist)
         else:
             nextPageP = page.find("a[4]")
             yield Listitem.next_page(nextPage=nextPageP.get("href"),callback=get_Nextpostlist)
         
 
 @Route.register
-def categories(plugin,url):
-        item = Listitem()
-        item.label = "IMAGES"
-        url = url
-        item.set_callback(images_List, url=url)
-        yield item
-        
-        item = Listitem()
-        item.label = "VIDEOS"
-        url = url
-        item.set_callback(videos_List, url=url)
-        yield item
-        
-        
-@Route.register
-def images_List(plugin,url):
+def media_List(plugin, url):
     resp = urlquick.get(url, headers=headers, max_age=-1)
-    imagesRoot = resp.parse("div",attrs={"class":"post-content"})
-    images_list = imagesRoot.iterfind("div/div[3]/p/a/img")
-    
-    counter = 1
-    for image in images_list:
-        item = Listitem()
-        item.label = "IMAGE " + str(counter)
-        url = image.get("src")
-        item.art["thumb"] = image.get("src")
-        item.art["fanart"] = image.get("src")
-        item.set_callback(show_Images, url=url)
-        counter += 1
-        yield item
-        
+    mediaRoot = resp.parse("div", attrs={"class": "post-content"})
+    mediaList = mediaRoot.iterfind("div/div[3]")
 
-@Route.register
-def videos_List(plugin,url):
-    resp = urlquick.get(url, headers=headers, max_age=-1)
-    videosRoot = resp.parse("div",attrs={"class":"post-content"})
-    videos_list = videosRoot.iterfind("div/div[3]/div/iframe")
-    videos_name = videosRoot.iterfind("div/div[3]/h5")
-    # counter = 1
-    for name,video in zip(videos_name,videos_list):
+    def create_item(name, video_url):
         item = Listitem()
-        item.label = name.text #+ str(counter)
-        url = video.get("src")
-        # item.art["thumb"] = video.get("src")
-        # item.art["fanart"] = video.get("src")
-        item.set_callback(play_Video, url=url)
-        # counter += 1
-        yield item
-    
-              
+        item.label = "{}: {}".format(tools.getString(30011),name)
+        id = video_url.replace("https://www.youtube.com/embed/", "")
+        img = "https://img.youtube.com/vi/{}/sddefault.jpg".format(id)
+        item.art["thumb"] = img
+        item.art["fanart"] = img
+        item.set_callback(play_Video, url=video_url)
+        return item
+
+    for media in mediaList:
+        videosList = media.findall("div/iframe")
+        videos_nameList = media.findall("h5")
+        imagesList = media.findall("p/a/img")
+
+        if not videos_nameList:
+            for video in videosList:
+                item = create_item(video.get("src").replace('https://www.youtube.com/embed/',''), video.get("src"))
+                yield item
+        else:
+            for name, video in zip(videos_nameList, videosList):
+                item = create_item(name.text, video.get("src"))
+                yield item
+
+
+        for img in imagesList:
+            img_url = img.get("src")
+            if img_url != "https://hustlepress.co.jp/img/webshop_bt.jpg":
+                name_original = img_url.split('/')[-1].split('_')
+                name_constructor = [name.capitalize() for name in name_original]
+                name = ' '.join(name_constructor)
+                gallery = resp.url.replace('https://hustlepress.co.jp/','').replace('/','')
+                image = tools.downloadFile(name,gallery,img_url)
+
+                item = Listitem()
+                label = name.replace('.jpg','').replace('.gif','').replace('.png','')
+                item.label = "{}: {}".format(tools.getString(30012),label)
+                album = image.replace(name,'')
+                pic = image
+                url = img_url
+                item.art["thumb"] = image
+                item.art["fanart"] = image
+                item.set_callback(show_Images, album=album, pic=pic, url=img_url, label=label)
+                yield item
+                
+
 @Resolver.register
-def show_Images(plugin,url):
+def show_Images(plugin,album,pic,url,label):
+    album = album
     url = url
-    xbmc.executebuiltin('ShowPicture(' + url + ')')
+    xbmc.executebuiltin("ShowPicture({})".format(pic))
+    wait(5)
+    xbmc.executebuiltin("SlideShow({})".format(album))
     plugin = plugin.extract_source(url)   
     return Listitem().from_dict(**{
-        "label" : "Playing",
+        "label" : label,
         "callback" : plugin,
     })       
 

@@ -9,42 +9,40 @@ msgstr ""
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Kodi Translation Team\n"
-"Language-Team: English (http://www.transifex.com/projects/p/xbmc-addons/language/en/)\n"
+"Language-Team: French (French) (http://www.transifex.com/projects/p/xbmc-addons/language/fr_FR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: en_GB\n"
+"Language: fr_FR\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-
-#This is a comment
 
 msgctxt "#30000"
 msgid "Settings"
-msgstr "Settings"
+msgstr "Paramètres"
 
 msgctxt "#30001"
 msgid "Enable/Disable Debug"
-msgstr "Enable/Disable Debug"
+msgstr "Activer/Désactiver le débogage"
 
 msgctxt "#30002"
 msgid "Restart Required"
-msgstr "Restart Required"
+msgstr "Redémarrage requis"
 
 msgctxt "#30003"
 msgid "If you want to see Japanese titles displayed correctly, please restart Kodi now. Alternatively, you can continue using it and the changes will take effect after your next restart."
-msgstr "If you want to see Japanese titles displayed correctly, please restart Kodi now. Alternatively, you can continue using it and the changes will take effect after your next restart."
+msgstr "Si vous voulez voir les titres japonais affichés correctement, veuillez redémarrer Kodi maintenant. Sinon, vous pouvez continuer à l'utiliser et les modifications prendront effet après votre prochain redémarrage."
 
 msgctxt "#30004"
 msgid "Unsupported Skin"
-msgstr "Unsupported Skin"
+msgstr "Thème non pris en charge"
 
 msgctxt "#30005"
 msgid "Please report this on https://github.com/ponchofcult/Turning-Japanese/issues so we can add support as soon as possible. Thank you!"
-msgstr "Please report this on https://github.com/ponchofcult/Turning-Japanese/issues so we can add support as soon as possible. Thank you!"
+msgstr "Veuillez signaler cela sur https://github.com/ponchofcult/Turning-Japanese/issues afin que nous puissions ajouter le support le plus rapidement possible. Merci !"
 
 msgctxt "#30006"
 msgid "HOME"
-msgstr "HOME"
+msgstr "ACCUEIL"
 
 msgctxt "#30007"
 msgid "GRAVURE"
@@ -52,21 +50,20 @@ msgstr "GRAVURE"
 
 msgctxt "#30008"
 msgid "INTERVIEW"
-msgstr "INTERVIEW"
+msgstr "ENTREVUE"
 
 msgctxt "#30009"
 msgid "FEATURE"
-msgstr "FEATURE"
+msgstr "ARTICLE"
 
 msgctxt "#30010"
 msgid "COLUMN"
-msgstr "COLUMN"
+msgstr "RUBRIQUE"
 
 msgctxt "#30011"
 msgid "Video"
-msgstr "Video"
+msgstr "Vidéo"
 
 msgctxt "#30012"
 msgid "Image"
 msgstr "Image"
-

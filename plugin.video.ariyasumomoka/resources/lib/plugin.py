@@ -13,6 +13,7 @@ import resolveurl
 import xbmc
 import xbmcvfs
 import os
+from time import sleep as wait
 
 
 tools.setFont()
@@ -94,34 +95,19 @@ def get_photos(plugin, url):
     
     for photo in photoslist:
         url = url_constructor(photo.get("src"))
-        url = s.get(url)
-        route = "special://home/temp"
-        profile = xbmcvfs.translatePath(route)
-        directory = "ariyasumomoka"
         gallery = resp.url.replace('https://www.ariyasumomoka.jp/','').replace('/','')
-        path = xbmcvfs.translatePath(os.path.join(profile, directory, gallery))
-        try:
-            xbmcvfs.mkdirs(path)
-            logger.debug("Directory '%s' created" %directory)
-        except OSError as error:
-            logger.debug(error)
-
-        
-        img = url.url.replace('https://www.ariyasumomoka.jp/images/bio/','')
-        img_path = xbmcvfs.translatePath("{}/{}/{}/{}".format(profile,directory, gallery, img))
-        image = open(img_path, 'wb')
-        image.write(url.content)
-        image.close()
-        image_file = img_path
+        img = url.replace('https://www.ariyasumomoka.jp/images/bio/','')
+        logger.debug(url)
+        logger.debug(img)
+        image = tools.downloadFile(img,gallery,url)
         
         item = Listitem()
         item.label = img.replace('.jpg','')
-        album = xbmcvfs.translatePath("{}/{}/{}".format(profile,directory, gallery))
-        pic = xbmcvfs.translatePath("{}/{}/{}/{}".format(profile,directory, gallery, img))
-        
-        item.art["thumb"] = image_file
-        item.art["fanart"] = image_file
-        item.set_callback(show_Photos, album=album, pic=pic, url=url.url)
+        album = image.replace(img,'')
+        pic = image
+        item.art["thumb"] = image
+        item.art["fanart"] = image
+        item.set_callback(show_Photos, album=album, pic=pic, url=url, label=item.label)
         yield item
 
 
@@ -145,7 +131,7 @@ def data_Video(plugin, url, img):
 
 
 @Resolver.register
-def show_Photos(plugin,album,pic,url):
+def show_Photos(plugin,album,pic,url,label):
     album = album
     url = url
     xbmc.executebuiltin("ShowPicture({})".format(pic))
@@ -153,7 +139,7 @@ def show_Photos(plugin,album,pic,url):
     xbmc.executebuiltin("SlideShow({})".format(album))
     plugin = plugin.extract_source(url)
     return Listitem().from_dict(**{
-        "label" : "Showing",
+        "label" : label,
         "callback" : plugin,
     })
 
@@ -248,9 +234,12 @@ def enter_AlbumVideo(plugin, url):
     counter = 1
     for elem in videosElems:
         item = Listitem()
-        item.label = tools.getString(30013) + str(counter)
+        item.label = "{} {}".format(tools.getString(30013),str(counter))
         url = elem.get("src")
-        logger.debug(url)
+        id = url.replace('https://www.youtube.com/embed/','')
+        img = "https://img.youtube.com/vi/{}/sddefault.jpg".format(id)
+        item.art["thumb"] = img
+        item.art["fanart"] = img
         item.set_callback(play_Video, url=url, _url=_url)
         counter += 1
         yield item   
@@ -263,12 +252,15 @@ def enter_AlbumPopSZT2019(plugin, url):
     videosRoot = resp.parse("div", attrs={"class": "movie"})
     videosElems = videosRoot.iterfind("div/div/div/iframe")
     
-    
     counter = 1
     for elem in videosElems:
         item = Listitem()
-        item.label = tools.getString(30013) + str(counter)
+        item.label = "{} {}".format(tools.getString(30013),str(counter))
         url = elem.get("src")
+        id = url.replace('https://www.youtube.com/embed/','')
+        img = "https://img.youtube.com/vi/{}/sddefault.jpg".format(id)
+        item.art["thumb"] = img
+        item.art["fanart"] = img
         item.set_callback(play_Video, url=url, _url=_url)
         counter += 1
         yield item
