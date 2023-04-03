@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <addons>
-<addon id="plugin.video.aidoru-online" name="Aidoru!Online" version="1.0.0" provider-name="JPONShow">
+<addon id="plugin.video.aidoru-online" name="Aidoru!Online" version="2.0.0" provider-name="JPONShow">
     <requires>
         <import addon="xbmc.python" version="3.0.0"/>
         <import addon="script.module.routing" version="0.2.0"/>
@@ -8,6 +8,7 @@
         <import addon="script.module.future" version="0.17.1"/>
 		<import addon="script.module.beautifulsoup4" version="4.9.3"/>
         <import addon="script.module.requests" version="2.22.0"/>
+		<import addon="script.module.bencode" version="4.0.0"/>
     </requires>
     <extension point="xbmc.python.pluginsource" library="main.py">
         <provides>audio image video</provides>
@@ -21,7 +22,7 @@
         <forum></forum>
         <source></source>
         <news></news>
-        <disclaimer></disclaimer>
+        <disclaimer>This addon uses the bencodepy, whose author are Dean Gardiner. The author of this addon is not responsible for the content he provides or for the use given to it.</disclaimer>
         <assets>
             <icon>resources/icon.png</icon>
             <fanart>resources/fanart.jpg</fanart>
@@ -162,7 +163,7 @@
     </extension>
 </addon>
 
-    <addon id="repository.turning-japanese" name="Turning-Japanese Repository" version="1.0.8" provider-name="Ponchofcult">
+    <addon id="repository.turning-japanese" name="Turning-Japanese Repository" version="1.0.9" provider-name="Ponchofcult">
         <requires>
             <import addon="xbmc.python" version="3.0.0"/>
             <import addon="xbmc.addon" version="12.0.0"/>
@@ -179,8 +180,8 @@
         </dir>
         </extension>
         <extension point="xbmc.addon.metadata">
-            <summary>JPOP and JROCK Addon Repository</summary>
-            <description>Official Ponchofcult Repository with Japanse Pop and Japanese Rock Content Addons</description>
+            <summary>JPOP and JROCK Addon Repository.</summary>
+            <description>Official Ponchofcult repository with Japanse Pop and Japanese Rock Content Addons</description>
             <platform>all</platform>
             <assets>
             <icon>icon.png</icon>
