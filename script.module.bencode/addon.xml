@@ -1,6 +1,6 @@
-<addon id="script.module.bencode" name="Bencode" version="4.0.0" provider-name="Ponchofcult">
+<addon id="script.module.bencode" name="Bencode" version="4.0.1" provider-name="Ponchofcult">
     <requires>
-        <import addon="xbmc.python" version="3.0.0"/>
+        <!-- <import addon="xbmc.python" version="3.0.0"/> -->
     </requires>
     <extension point="xbmc.python.module" library="lib"/>
     <extension point="xbmc.addon.metadata">
